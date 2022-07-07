@@ -16,7 +16,19 @@ const portfolioValueAll = async () => {
   return portfolioValue;
 };
 
-const portfolioValuebyToken = async (token) => {};
+const portfolioValuebyToken = async (token) => {
+  const filteredTransaction = transactionData.default.filter((transaction) => {
+    const symbol = transaction[2];
+    return symbol === token;
+  });
+  const totalTokenNameAmountDict =
+    calculateTokenAmountFromTransactions(filteredTransaction);
+
+  const portfolioValue = await calculatePortfolioValueFromTokenDict(
+    totalTokenNameAmountDict
+  );
+  return portfolioValue;
+};
 
 const portfolioValuebyDate = {};
 
