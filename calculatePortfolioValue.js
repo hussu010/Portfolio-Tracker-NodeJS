@@ -5,7 +5,16 @@ const {
   calculatePortfolioValueFromTokenDict,
 } = require("./utils");
 
-const portfolioValueAll = async () => {};
+const portfolioValueAll = async () => {
+  const totalTokenNameAmountDict = calculateTokenAmountFromTransactions(
+    transactionData.default
+  );
+
+  const portfolioValue = await calculatePortfolioValueFromTokenDict(
+    totalTokenNameAmountDict
+  );
+  return portfolioValue;
+};
 
 const portfolioValuebyToken = async (token) => {};
 
