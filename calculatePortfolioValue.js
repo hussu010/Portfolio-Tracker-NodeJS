@@ -21,6 +21,7 @@ const portfolioValuebyToken = async (token) => {
     const symbol = transaction[2];
     return symbol === token;
   });
+
   const totalTokenNameAmountDict =
     calculateTokenAmountFromTransactions(filteredTransaction);
 
@@ -30,7 +31,35 @@ const portfolioValuebyToken = async (token) => {
   return portfolioValue;
 };
 
-const portfolioValuebyDate = {};
+const portfolioValuebyDate = async (date) => {
+  var filteredTransaction = [];
+  var foundTransactionHead = false;
+
+  transactionData.default.every((transaction) => {
+    const transactionDate = transaction[0];
+    const transactionDateObject = new Date(transactionDate * 1000);
+    const formattedDate = transactionDateObject.toLocaleDateString();
+
+    if (formattedDate === date) {
+      foundTransactionHead = true;
+      filteredTransaction.push(transaction);
+    }
+
+    if (foundTransactionHead && formattedDate != date) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const totalTokenNameAmountDict =
+    calculateTokenAmountFromTransactions(filteredTransaction);
+
+  const portfolioValue = await calculatePortfolioValueFromTokenDict(
+    totalTokenNameAmountDict
+  );
+  return portfolioValue;
+};
 
 const portfolioValuebyTokenAndDate = {};
 
