@@ -8,6 +8,7 @@ const {
   getAllTransactions,
   getTransactionsByToken,
   getTransactionsBetweenTimestamp,
+  getTransactionsByTokenAndDate,
 } = require("./utils/db");
 
 const portfolioValueAll = async () => {
@@ -37,13 +38,7 @@ const portfolioValuebyToken = async (token) => {
 };
 
 const portfolioValuebyDate = async (date) => {
-  const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
-  const endOfTheDayInEpoch = startOfTheDayInEpoch + 86400;
-
-  const filteredTransaction = await getTransactionsBetweenTimestamp(
-    startOfTheDayInEpoch,
-    endOfTheDayInEpoch
-  );
+  const filteredTransaction = await getTransactionsBetweenTimestamp(date);
 
   const totalTokenNameAmountDict =
     calculateTokenAmountFromTransactions(filteredTransaction);
@@ -55,7 +50,18 @@ const portfolioValuebyDate = async (date) => {
   return portfolioValue;
 };
 
-const portfolioValuebyTokenAndDate = {};
+const portfolioValuebyTokenAndDate = async (token, date) => {
+  const filteredTransaction = await getTransactionsByTokenAndDate(token, date);
+
+  const totalTokenNameAmountDict =
+    calculateTokenAmountFromTransactions(filteredTransaction);
+
+  const portfolioValue = await calculatePortfolioValueFromTokenDict(
+    totalTokenNameAmountDict
+  );
+
+  return portfolioValue;
+};
 
 module.exports = {
   portfolioValueAll,
