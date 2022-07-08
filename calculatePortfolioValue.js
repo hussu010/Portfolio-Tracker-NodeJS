@@ -4,10 +4,15 @@ const {
   calculatePortfolioValueFromTokenDict,
 } = require("./utils");
 
-const { getAllTransactions, getTransactionsByToken } = require("./utils/db");
+const {
+  getAllTransactions,
+  getTransactionsByToken,
+  getTransactionsBetweenTimestamp,
+} = require("./utils/db");
 
 const portfolioValueAll = async () => {
   const allTransactions = await getAllTransactions();
+  console.log(allTransactions.length);
 
   const totalTokenNameAmountDict =
     calculateTokenAmountFromTransactions(allTransactions);
@@ -32,25 +37,13 @@ const portfolioValuebyToken = async (token) => {
 };
 
 const portfolioValuebyDate = async (date) => {
-  var filteredTransaction = [];
-  var foundTransactionHead = false;
+  const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
+  const endOfTheDayInEpoch = startOfTheDayInEpoch + 86400;
 
-  transactionData.default.every((transaction) => {
-    const transactionDate = transaction[0];
-    const transactionDateObject = new Date(transactionDate * 1000);
-    const formattedDate = transactionDateObject.toLocaleDateString();
-
-    if (formattedDate === date) {
-      foundTransactionHead = true;
-      filteredTransaction.push(transaction);
-    }
-
-    if (foundTransactionHead && formattedDate != date) {
-      return false;
-    }
-
-    return true;
-  });
+  const filteredTransaction = await getTransactionsBetweenTimestamp(
+    startOfTheDayInEpoch,
+    endOfTheDayInEpoch
+  );
 
   const totalTokenNameAmountDict =
     calculateTokenAmountFromTransactions(filteredTransaction);
@@ -58,6 +51,7 @@ const portfolioValuebyDate = async (date) => {
   const portfolioValue = await calculatePortfolioValueFromTokenDict(
     totalTokenNameAmountDict
   );
+
   return portfolioValue;
 };
 
