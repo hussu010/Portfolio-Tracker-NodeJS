@@ -4,10 +4,10 @@ const {
   calculatePortfolioValueFromTokenDict,
 } = require("./utils");
 
-const { getAllTransactionsFromDB } = require("./utils/db");
+const { getAllTransactions, getTransactionsByToken } = require("./utils/db");
 
 const portfolioValueAll = async () => {
-  const allTransactions = await getAllTransactionsFromDB();
+  const allTransactions = await getAllTransactions();
 
   const totalTokenNameAmountDict =
     calculateTokenAmountFromTransactions(allTransactions);
@@ -20,10 +20,7 @@ const portfolioValueAll = async () => {
 };
 
 const portfolioValuebyToken = async (token) => {
-  const filteredTransaction = transactionData.default.filter((transaction) => {
-    const symbol = transaction[2];
-    return symbol === token;
-  });
+  const filteredTransaction = await getTransactionsByToken(token);
 
   const totalTokenNameAmountDict =
     calculateTokenAmountFromTransactions(filteredTransaction);
