@@ -1,18 +1,21 @@
-const transactionData = require("./readCSV");
 const {
   fetchTokenCurrentValue,
   calculateTokenAmountFromTransactions,
   calculatePortfolioValueFromTokenDict,
 } = require("./utils");
 
-const portfolioValueAll = async () => {
-  const totalTokenNameAmountDict = calculateTokenAmountFromTransactions(
-    transactionData.default
-  );
+const { getAllTransactionsFromDB } = require("./utils/db");
 
-  const portfolioValue = await calculatePortfolioValueFromTokenDict(
+const portfolioValueAll = async () => {
+  const allTransactions = await getAllTransactionsFromDB();
+
+  const totalTokenNameAmountDict =
+    calculateTokenAmountFromTransactions(allTransactions);
+
+  let portfolioValue = await calculatePortfolioValueFromTokenDict(
     totalTokenNameAmountDict
   );
+
   return portfolioValue;
 };
 
