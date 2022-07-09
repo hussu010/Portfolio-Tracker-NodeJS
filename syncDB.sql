@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS transactions (timestamp INT, transaction_type varchar
 select 'Syncing the contents from transactions.csv to db' AS '';
 select 'Buckle up; it might take a while' AS ''; 
 .separator ","
-.import transactions_copy.csv transactions
+.import transactions.csv transactions
 delete from transactions where rowid IN (select rowid from transactions limit 1);
 select 'Yaay, the sync is complete' AS '';
