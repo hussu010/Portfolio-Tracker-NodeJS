@@ -1,33 +1,92 @@
 const db = require("../config/db");
 
 const getAllTransactions = async () => {
+  var totalTokenNameAmount = {};
+
   return new Promise((resolve, reject) => {
-    db.all(`select * from transactions`, [], (err, rows) => {
-      if (err) reject(err); // I assume this is how an error is thrown with your db callback
-      resolve(rows);
-    });
+    db.each(
+      `select * from transactions`,
+      [],
+      (err, transaction) => {
+        if (err) reject(err); // I assume this is how an error is thrown with your db callback
+
+        const { transaction_type, token, amount } = transaction;
+
+        if (transaction_type == "DEPOSIT") {
+          totalTokenNameAmount[token] =
+            (totalTokenNameAmount[token] || parseFloat(amount)) +
+            parseFloat(amount);
+        } else {
+          totalTokenNameAmount[token] =
+            (totalTokenNameAmount[token] || parseFloat(amount)) -
+            parseFloat(amount);
+        }
+      },
+      (error, numberOfRows) => {
+        resolve(totalTokenNameAmount);
+      }
+    );
   });
 };
 
 const getTransactionsByToken = async (token) => {
+  var totalTokenNameAmount = {};
+
   return new Promise((resolve, reject) => {
-    db.all(`select * from transactions where token=?`, [token], (err, rows) => {
-      if (err) reject(err); // I assume this is how an error is thrown with your db callback
-      resolve(rows);
-    });
+    db.each(
+      `select * from transactions where token=?`,
+      [token],
+      (err, transaction) => {
+        if (err) reject(err); // I assume this is how an error is thrown with your db callback
+
+        const { transaction_type, token, amount } = transaction;
+
+        if (transaction_type == "DEPOSIT") {
+          totalTokenNameAmount[token] =
+            (totalTokenNameAmount[token] || parseFloat(amount)) +
+            parseFloat(amount);
+        } else {
+          totalTokenNameAmount[token] =
+            (totalTokenNameAmount[token] || parseFloat(amount)) -
+            parseFloat(amount);
+        }
+      },
+      (err, numberOfRows) => {
+        if (err) reject(err);
+        resolve(totalTokenNameAmount);
+      }
+    );
   });
 };
 
 const getTransactionsBetweenTimestamp = async (date) => {
   const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
   const endOfTheDayInEpoch = startOfTheDayInEpoch + 86400;
+  var totalTokenNameAmount = {};
+
   return new Promise((resolve, reject) => {
-    db.all(
+    db.each(
       `select * from transactions where timestamp between ? and ?`,
       [startOfTheDayInEpoch, endOfTheDayInEpoch],
-      (err, rows) => {
+      (err, transaction) => {
         if (err) reject(err); // I assume this is how an error is thrown with your db callback
-        resolve(rows);
+
+        const { transaction_type, token, amount } = transaction;
+        const floatAmount = parseFloat(amount);
+
+        if (transaction_type == "DEPOSIT") {
+          totalTokenNameAmount[token] =
+            (totalTokenNameAmount[token] || parseFloat(amount)) +
+            parseFloat(amount);
+        } else {
+          totalTokenNameAmount[token] =
+            (totalTokenNameAmount[token] || parseFloat(amount)) -
+            parseFloat(amount);
+        }
+      },
+      (err, numberOfRows) => {
+        if (err) reject(err);
+        resolve(totalTokenNameAmount);
       }
     );
   });
@@ -36,13 +95,30 @@ const getTransactionsBetweenTimestamp = async (date) => {
 const getTransactionsByTokenAndDate = async (token, date) => {
   const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
   const endOfTheDayInEpoch = startOfTheDayInEpoch + 86400;
+  var totalTokenNameAmount = {};
+
   return new Promise((resolve, reject) => {
-    db.all(
+    db.each(
       `select * from transactions where timestamp between ? and ? and token=?`,
       [startOfTheDayInEpoch, endOfTheDayInEpoch, token],
-      (err, rows) => {
+      (err, transaction) => {
         if (err) reject(err); // I assume this is how an error is thrown with your db callback
-        resolve(rows);
+
+        const { transaction_type, token, amount } = transaction;
+
+        if (transaction_type == "DEPOSIT") {
+          totalTokenNameAmount[token] =
+            (totalTokenNameAmount[token] || parseFloat(amount)) +
+            parseFloat(amount);
+        } else {
+          totalTokenNameAmount[token] =
+            (totalTokenNameAmount[token] || parseFloat(amount)) -
+            parseFloat(amount);
+        }
+      },
+      (err, numberOfRows) => {
+        if (err) reject(err);
+        resolve(totalTokenNameAmount);
       }
     );
   });

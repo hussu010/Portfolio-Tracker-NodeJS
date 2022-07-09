@@ -11,12 +11,9 @@ const {
 } = require("./db");
 
 const portfolioValueAll = async () => {
-  const allTransactions = await getAllTransactions();
+  const totalTokenNameAmountDict = await getAllTransactions();
 
-  const totalTokenNameAmountDict =
-    calculateTokenAmountFromTransactions(allTransactions);
-
-  let portfolioValue = await calculatePortfolioValueFromTokenDict(
+  const portfolioValue = await calculatePortfolioValueFromTokenDict(
     totalTokenNameAmountDict
   );
 
@@ -24,10 +21,7 @@ const portfolioValueAll = async () => {
 };
 
 const portfolioValuebyToken = async (token) => {
-  const filteredTransaction = await getTransactionsByToken(token);
-
-  const totalTokenNameAmountDict =
-    calculateTokenAmountFromTransactions(filteredTransaction);
+  const totalTokenNameAmountDict = await getTransactionsByToken(token);
 
   const portfolioValue = await calculatePortfolioValueFromTokenDict(
     totalTokenNameAmountDict
@@ -36,10 +30,7 @@ const portfolioValuebyToken = async (token) => {
 };
 
 const portfolioValuebyDate = async (date) => {
-  const filteredTransaction = await getTransactionsBetweenTimestamp(date);
-
-  const totalTokenNameAmountDict =
-    calculateTokenAmountFromTransactions(filteredTransaction);
+  const totalTokenNameAmountDict = await getTransactionsBetweenTimestamp(date);
 
   const portfolioValue = await calculatePortfolioValueFromTokenDict(
     totalTokenNameAmountDict
@@ -49,10 +40,10 @@ const portfolioValuebyDate = async (date) => {
 };
 
 const portfolioValuebyTokenAndDate = async (token, date) => {
-  const filteredTransaction = await getTransactionsByTokenAndDate(token, date);
-
-  const totalTokenNameAmountDict =
-    calculateTokenAmountFromTransactions(filteredTransaction);
+  const totalTokenNameAmountDict = await getTransactionsByTokenAndDate(
+    token,
+    date
+  );
 
   const portfolioValue = await calculatePortfolioValueFromTokenDict(
     totalTokenNameAmountDict
