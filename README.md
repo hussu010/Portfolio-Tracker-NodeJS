@@ -29,20 +29,20 @@ sqlite3 transactions.db ".read syncDB.sql
 Run the project.
 
 ```shell
-npm start
+node index.js
 ```
 
 ## Available Commands
 
-`npm start help`
+`node index.js help`
 
 Lists all the commands available on the script.
 
-`npm start overview`
+`node index.js overview`
 
 Shows the overview of the entire portfolio.
 
-`npm start filter --token=BTC --date=2019-10-25`
+`node index.js filter --token=BTC --date=2019-10-25`
 
 Filter the portfolio by token, date or both.
 
