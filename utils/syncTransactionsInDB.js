@@ -4,7 +4,7 @@
 
 const fs = require("fs");
 const { parse } = require("csv-parse");
-const db = require("./db");
+const db = require("../config/db");
 
 const wipeOutTransactionFromDB = () => {
   db.serialize(function () {
