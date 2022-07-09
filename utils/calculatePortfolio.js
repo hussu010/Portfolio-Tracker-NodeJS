@@ -1,14 +1,14 @@
 const {
   calculateTokenAmountFromTransactions,
   calculatePortfolioValueFromTokenDict,
-} = require("../utils/token");
+} = require("./token");
 
 const {
   getAllTransactions,
   getTransactionsByToken,
   getTransactionsBetweenTimestamp,
   getTransactionsByTokenAndDate,
-} = require("../utils/db");
+} = require("./db");
 
 const portfolioValueAll = async () => {
   const allTransactions = await getAllTransactions();

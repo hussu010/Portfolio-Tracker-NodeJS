@@ -5,7 +5,7 @@ const {
   portfolioValuebyToken,
   portfolioValuebyDate,
   portfolioValuebyTokenAndDate,
-} = require("./calculatePortfolio");
+} = require("../utils/calculatePortfolio");
 
 const filter = async () => {
   const argsArray = process.argv;

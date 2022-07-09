@@ -2,7 +2,7 @@ const minimist = require("minimist");
 const chalk = require("chalk");
 const { help } = require("./help");
 const { filter } = require("./filter");
-const { portfolioValueAll } = require("./calculatePortfolio");
+const { portfolioValueAll } = require("../utils/calculatePortfolio");
 
 const cliCommand = async () => {
   const argsArray = process.argv;
