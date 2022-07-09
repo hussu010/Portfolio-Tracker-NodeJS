@@ -19,6 +19,11 @@ const cliCommand = async () => {
       break;
 
     case "overview":
+      console.log(
+        `${chalk.blue(
+          "Buckle up; because of the large datasize it might take a while to process...."
+        )}`
+      );
       console.log(`${chalk.greenBright("Portfolio Details")}`);
 
       const valueOfAllPortfolio = await portfolioValueAll();

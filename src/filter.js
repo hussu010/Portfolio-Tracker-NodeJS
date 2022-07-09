@@ -25,6 +25,11 @@ ${chalk.greenBright("node index.js filter <options>")}
     );
   } else if (typeof token !== "undefined" && typeof date == "undefined") {
     if (validateToken(token)) {
+      console.log(
+        `${chalk.blue(
+          "Buckle up; because of the large datasize it might take a while to process...."
+        )}`
+      );
       console.log(`${chalk.greenBright("Portfolio Details")}`);
 
       const valueOfPortfolioOfToken = await portfolioValuebyToken(token);
@@ -33,6 +38,11 @@ ${chalk.greenBright("node index.js filter <options>")}
     }
   } else if (typeof token == "undefined" && typeof date !== "undefined") {
     if (validateDate(date)) {
+      console.log(
+        `${chalk.blue(
+          "Buckle up; because of the large datasize it might take a while to process...."
+        )}`
+      );
       console.log(`${chalk.greenBright("Portfolio Details")}`);
 
       const valueOfPortfolioOnDate = await portfolioValuebyDate(date);
@@ -43,6 +53,11 @@ ${chalk.greenBright("node index.js filter <options>")}
     }
   } else {
     if (validateDate(date) && validateToken(token)) {
+      console.log(
+        `${chalk.blue(
+          "Buckle up; because of the large datasize it might take a while to process...."
+        )}`
+      );
       console.log(`${chalk.greenBright("Portfolio Details")}`);
 
       const portfolioValue = await portfolioValuebyTokenAndDate(token, date);
