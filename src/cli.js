@@ -23,7 +23,7 @@ const cliCommand = async () => {
 
       const valueOfAllPortfolio = await portfolioValueAll();
 
-      console.log(`Current Balance: $${valueOfAllPortfolio.toFixed(2)}`);
+      console.log(`Total Balance: $${valueOfAllPortfolio.toFixed(2)}`);
       break;
 
     case "filter":

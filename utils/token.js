@@ -43,9 +43,11 @@ const calculatePortfolioValueFromTokenDict = async (
     const currentValueOfToken = await fetchTokenCurrentValue(tokenName);
     const valueOfTokenInPortfolio = currentValueOfToken * totalAmountOfToken;
     console.log(
-      `-----------------\nToken: ${tokenName}\nBalance: $${valueOfTokenInPortfolio.toFixed(
-        2
-      )}\n-----------------`
+      `-----------------
+Token: ${tokenName}
+Amount: ${totalAmountOfToken.toFixed(4)}
+Price: $${currentValueOfToken.toFixed(4)}
+Balance: $${valueOfTokenInPortfolio.toFixed(2)}\n-----------------`
     );
     portfolioValueInUSD += valueOfTokenInPortfolio;
   }

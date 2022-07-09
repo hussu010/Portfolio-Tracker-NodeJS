@@ -29,7 +29,7 @@ ${chalk.greenBright("node index.js filter <options>")}
 
       const valueOfPortfolioOfToken = await portfolioValuebyToken(token);
 
-      console.log(`Current Balance: $${valueOfPortfolioOfToken.toFixed(2)}`);
+      console.log(`Total Balance: $${valueOfPortfolioOfToken.toFixed(2)}`);
     }
   } else if (typeof token == "undefined" && typeof date !== "undefined") {
     if (validateDate(date)) {
@@ -38,7 +38,7 @@ ${chalk.greenBright("node index.js filter <options>")}
       const valueOfPortfolioOnDate = await portfolioValuebyDate(date);
 
       console.log(
-        `Date: ${date}\nCurrent Balance: $${valueOfPortfolioOnDate.toFixed(2)}`
+        `Date: ${date}\nTotal Balance: $${valueOfPortfolioOnDate.toFixed(2)}`
       );
     }
   } else {
@@ -48,7 +48,7 @@ ${chalk.greenBright("node index.js filter <options>")}
       const portfolioValue = await portfolioValuebyTokenAndDate(token, date);
 
       console.log(
-        `Date: ${date}\nCurrent Balance: $${portfolioValue.toFixed(2)}`
+        `Date: ${date}\nTotal Balance: $${portfolioValue.toFixed(2)}`
       );
     }
   }
