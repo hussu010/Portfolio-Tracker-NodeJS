@@ -23,7 +23,7 @@ Copy `transactions.csv` file to the root of the project.
 Sync the db with contents from `transactions.csv` file.
 
 ```shell
-sqlite3 transactions.db ".read syncDB.sql
+sqlite3 transactions.db ".read syncDB.sql"
 ```
 
 Run the project.
