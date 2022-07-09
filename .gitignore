@@ -129,6 +129,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# test .csv file
+# local files related to transactions
 rsdc.csv
 transactions.csv
+transactions.db
+transactions_copy.csv
