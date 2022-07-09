@@ -4,6 +4,14 @@ CLI tool to keep track of your crypto portfolio. Allows users to show the overvi
 
 ## Project Setup
 
+You'll need to have nodejs and sqlite3 install on your system beforehand.
+
+Node.js installation guide: https://www.digitalocean.com/community/tutorial_series/how-to-install-node-js-and-create-a-local-development-environment
+
+SQLite installation guide: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-sqlite-on-ubuntu-20-04
+
+Once they're installed,
+
 Clone the project.
 
 ```shell
