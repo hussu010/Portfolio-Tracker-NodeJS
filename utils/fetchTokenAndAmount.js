@@ -3,7 +3,7 @@ const path = require("path");
 const { parse } = require("csv-parse");
 const { calculateTokenAmountFromTransactions } = require("./token");
 
-const getAllTransactions = () => {
+const getTotalTokenNameAmountDict = ({ token, date } = {}) => {
   const readTransactionsStream = fs.createReadStream(
     path.resolve(__dirname, "../transactions.csv")
   );
@@ -15,110 +15,53 @@ const getAllTransactions = () => {
     readTransactionsStream
       .pipe(parse({ delimiter: ",", from_line: 2 }))
       .on("data", (data) => {
-        allTokenNameAmount = calculateTokenAmountFromTransactions(
-          tokenNameAmount,
-          data
-        );
-      })
-      .on("end", () => {
-        resolve(allTokenNameAmount);
-      })
-      .on("error", (error) => {
-        reject(error);
-      });
-  });
-};
+        if (token && date) {
+          const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
+          const endOfTheDayInEpoch = startOfTheDayInEpoch + 86400;
 
-const getTransactionsByToken = (token) => {
-  const readTransactionsStream = fs.createReadStream(
-    path.resolve(__dirname, "../transactions.csv")
-  );
+          const timestamp = data[0];
+          const symbol = data[2];
 
-  var tokenNameAmount = {};
-  var allTokenNameAmount = {};
+          if (timestamp <= endOfTheDayInEpoch && token === symbol) {
+            allTokenNameAmount = calculateTokenAmountFromTransactions(
+              tokenNameAmount,
+              data
+            );
+          }
+          if (timestamp <= startOfTheDayInEpoch) {
+            resolve(allTokenNameAmount);
+            readTransactionsStream.destroy();
+          }
+        } else if (token) {
+          const symbol = data[2];
 
-  return new Promise((resolve, reject) => {
-    readTransactionsStream
-      .pipe(parse({ delimiter: ",", from_line: 2 }))
-      .on("data", (data) => {
-        const symbol = data[2];
-        if (symbol === token)
+          if (symbol === token)
+            allTokenNameAmount = calculateTokenAmountFromTransactions(
+              tokenNameAmount,
+              data
+            );
+        } else if (date) {
+          const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
+          const endOfTheDayInEpoch = startOfTheDayInEpoch + 86400;
+
+          const timestamp = data[0];
+
+          if (timestamp <= endOfTheDayInEpoch) {
+            allTokenNameAmount = calculateTokenAmountFromTransactions(
+              tokenNameAmount,
+              data
+            );
+          }
+
+          if (timestamp <= startOfTheDayInEpoch) {
+            resolve(allTokenNameAmount);
+            readTransactionsStream.destroy();
+          }
+        } else {
           allTokenNameAmount = calculateTokenAmountFromTransactions(
             tokenNameAmount,
             data
           );
-      })
-      .on("end", () => {
-        resolve(allTokenNameAmount);
-      })
-      .on("error", (error) => {
-        reject(error);
-      });
-  });
-};
-
-const getTransactionsBetweenTimestamp = (date) => {
-  const readTransactionsStream = fs.createReadStream(
-    path.resolve(__dirname, "../transactions.csv")
-  );
-
-  const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
-  const endOfTheDayInEpoch = startOfTheDayInEpoch + 86400;
-
-  var tokenNameAmount = {};
-  var allTokenNameAmount = {};
-
-  return new Promise((resolve, reject) => {
-    readTransactionsStream
-      .pipe(parse({ delimiter: ",", from_line: 2 }))
-      .on("data", (data) => {
-        const timestamp = data[0];
-        if (timestamp <= endOfTheDayInEpoch) {
-          allTokenNameAmount = calculateTokenAmountFromTransactions(
-            tokenNameAmount,
-            data
-          );
-        }
-        if (timestamp <= startOfTheDayInEpoch) {
-          resolve(allTokenNameAmount);
-          readTransactionsStream.destroy();
-        }
-      })
-      .on("end", () => {
-        resolve(allTokenNameAmount);
-      })
-      .on("error", (err) => {
-        reject(err);
-      });
-  });
-};
-
-const getTransactionsByTokenAndDate = (token, date) => {
-  const readTransactionsStream = fs.createReadStream(
-    path.resolve(__dirname, "../transactions.csv")
-  );
-
-  const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
-  const endOfTheDayInEpoch = startOfTheDayInEpoch + 86400;
-
-  var tokenNameAmount = {};
-  var allTokenNameAmount = {};
-
-  return new Promise((resolve, reject) => {
-    readTransactionsStream
-      .pipe(parse({ delimiter: ",", from_line: 2 }))
-      .on("data", (data) => {
-        const timestamp = data[0];
-        const symbol = data[2];
-        if (timestamp <= endOfTheDayInEpoch && token === symbol) {
-          allTokenNameAmount = calculateTokenAmountFromTransactions(
-            tokenNameAmount,
-            data
-          );
-        }
-        if (timestamp <= startOfTheDayInEpoch) {
-          resolve(allTokenNameAmount);
-          readTransactionsStream.destroy();
         }
       })
       .on("end", () => {
@@ -131,8 +74,5 @@ const getTransactionsByTokenAndDate = (token, date) => {
 };
 
 module.exports = {
-  getAllTransactions,
-  getTransactionsByToken,
-  getTransactionsBetweenTimestamp,
-  getTransactionsByTokenAndDate,
+  getTotalTokenNameAmountDict,
 };
