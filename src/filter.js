@@ -1,11 +1,7 @@
 const minimist = require("minimist");
 const chalk = require("chalk");
 const { validateDate, validateToken } = require("../utils/commands");
-const {
-  portfolioValuebyToken,
-  portfolioValuebyDate,
-  portfolioValuebyTokenAndDate,
-} = require("../utils/calculatePortfolio");
+const { getPortfolioValue } = require("../utils/calculatePortfolio");
 
 const filter = async () => {
   const argsArray = process.argv;
@@ -32,7 +28,7 @@ ${chalk.greenBright("node index.js filter <options>")}
       );
       console.log(`${chalk.greenBright("Portfolio Details")}`);
 
-      const valueOfPortfolioOfToken = await portfolioValuebyToken(token);
+      const valueOfPortfolioOfToken = await getPortfolioValue({ token: token });
 
       console.log(`Total Balance: $${valueOfPortfolioOfToken.toFixed(2)}`);
     }
@@ -45,7 +41,7 @@ ${chalk.greenBright("node index.js filter <options>")}
       );
       console.log(`${chalk.greenBright("Portfolio Details")}`);
 
-      const valueOfPortfolioOnDate = await portfolioValuebyDate(date);
+      const valueOfPortfolioOnDate = await getPortfolioValue({ date: date });
 
       console.log(
         `Date: ${date}\nTotal Balance: $${valueOfPortfolioOnDate.toFixed(2)}`
@@ -60,7 +56,10 @@ ${chalk.greenBright("node index.js filter <options>")}
       );
       console.log(`${chalk.greenBright("Portfolio Details")}`);
 
-      const portfolioValue = await portfolioValuebyTokenAndDate(token, date);
+      const portfolioValue = await getPortfolioValue({
+        token: token,
+        date: date,
+      });
 
       console.log(
         `Date: ${date}\nTotal Balance: $${portfolioValue.toFixed(2)}`

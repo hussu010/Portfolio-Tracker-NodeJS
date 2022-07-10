@@ -2,7 +2,7 @@ const minimist = require("minimist");
 const chalk = require("chalk");
 const { help } = require("./help");
 const { filter } = require("./filter");
-const { portfolioValueAll } = require("../utils/calculatePortfolio");
+const { getPortfolioValue } = require("../utils/calculatePortfolio");
 
 const cliCommand = async () => {
   const argsArray = process.argv;
@@ -26,7 +26,7 @@ const cliCommand = async () => {
       );
       console.log(`${chalk.greenBright("Portfolio Details")}`);
 
-      const valueOfAllPortfolio = await portfolioValueAll();
+      const valueOfAllPortfolio = await getPortfolioValue();
 
       console.log(`Total Balance: $${valueOfAllPortfolio.toFixed(2)}`);
       break;
