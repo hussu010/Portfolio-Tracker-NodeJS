@@ -14,12 +14,10 @@ const getAllTransactions = async () => {
 
         if (transaction_type == "DEPOSIT") {
           totalTokenNameAmount[token] =
-            (totalTokenNameAmount[token] || parseFloat(amount)) +
-            parseFloat(amount);
+            (totalTokenNameAmount[token] || 0) + parseFloat(amount);
         } else {
           totalTokenNameAmount[token] =
-            (totalTokenNameAmount[token] || parseFloat(amount)) -
-            parseFloat(amount);
+            (totalTokenNameAmount[token] || 0) - parseFloat(amount);
         }
       },
       (error, numberOfRows) => {
@@ -43,12 +41,10 @@ const getTransactionsByToken = async (token) => {
 
         if (transaction_type == "DEPOSIT") {
           totalTokenNameAmount[token] =
-            (totalTokenNameAmount[token] || parseFloat(amount)) +
-            parseFloat(amount);
+            (totalTokenNameAmount[token] || 0) + parseFloat(amount);
         } else {
           totalTokenNameAmount[token] =
-            (totalTokenNameAmount[token] || parseFloat(amount)) -
-            parseFloat(amount);
+            (totalTokenNameAmount[token] || 0) - parseFloat(amount);
         }
       },
       (err, numberOfRows) => {
@@ -72,16 +68,13 @@ const getTransactionsBetweenTimestamp = async (date) => {
         if (err) reject(err); // I assume this is how an error is thrown with your db callback
 
         const { transaction_type, token, amount } = transaction;
-        const floatAmount = parseFloat(amount);
 
         if (transaction_type == "DEPOSIT") {
           totalTokenNameAmount[token] =
-            (totalTokenNameAmount[token] || parseFloat(amount)) +
-            parseFloat(amount);
+            (totalTokenNameAmount[token] || 0) + parseFloat(amount);
         } else {
           totalTokenNameAmount[token] =
-            (totalTokenNameAmount[token] || parseFloat(amount)) -
-            parseFloat(amount);
+            (totalTokenNameAmount[token] || 0) - parseFloat(amount);
         }
       },
       (err, numberOfRows) => {
@@ -108,12 +101,10 @@ const getTransactionsByTokenAndDate = async (token, date) => {
 
         if (transaction_type == "DEPOSIT") {
           totalTokenNameAmount[token] =
-            (totalTokenNameAmount[token] || parseFloat(amount)) +
-            parseFloat(amount);
+            (totalTokenNameAmount[token] || 0) + parseFloat(amount);
         } else {
           totalTokenNameAmount[token] =
-            (totalTokenNameAmount[token] || parseFloat(amount)) -
-            parseFloat(amount);
+            (totalTokenNameAmount[token] || 0) - parseFloat(amount);
         }
       },
       (err, numberOfRows) => {
