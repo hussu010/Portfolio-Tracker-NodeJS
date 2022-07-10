@@ -14,7 +14,7 @@ Holds procedures to check the validity of commands used. Eg: `validateDate` make
 
 ### fetchTokenAndAmount.js
 
-Streams the rows of the transactions file one by one, parses it and calls `calculateTokenAmountFromTransactions` function to update the dictionary containing token name as key and amount as value. Returns the dict one every transactions are analyzed or exit condition is triggered.
+Streams the rows of the transactions file one by one, parses it and calls `calculateTokenAmountFromTransactions` function to update the dictionary containing token name as key and amount as value. Returns the dict once every transactions are analyzed or exit condition is triggered.
 
 ### token.js
 
