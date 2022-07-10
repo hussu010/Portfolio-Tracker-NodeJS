@@ -17,12 +17,10 @@ const fetchTokenCurrentValue = async (token) => {
 const calculateTokenAmountFromTransactions = (tokenNameAmount, transaction) => {
   const [timestamp, transaction_type, token, amount] = transaction;
 
-  if (transaction_type == "DEPOSIT") {
-    tokenNameAmount[token] =
-      (tokenNameAmount[token] || parseFloat(amount)) + parseFloat(amount);
+  if (transaction_type === "DEPOSIT") {
+    tokenNameAmount[token] = (tokenNameAmount[token] || 0) + parseFloat(amount);
   } else {
-    tokenNameAmount[token] =
-      (tokenNameAmount[token] || parseFloat(amount)) - parseFloat(amount);
+    tokenNameAmount[token] = (tokenNameAmount[token] || 0) - parseFloat(amount);
   }
   return tokenNameAmount;
 };
