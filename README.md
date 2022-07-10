@@ -4,13 +4,11 @@ CLI tool to keep track of your crypto portfolio. Allows users to show the overvi
 
 ## Project Setup
 
-You'll need to have nodejs and sqlite3 install on your system beforehand.
+You'll need to have nodejs installed on your system beforehand.
 
 Node.js installation guide: https://www.digitalocean.com/community/tutorial_series/how-to-install-node-js-and-create-a-local-development-environment
 
-SQLite installation guide: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-sqlite-on-ubuntu-20-04
-
-Once they're installed,
+Once installed,
 
 Clone the project.
 
@@ -29,12 +27,6 @@ npm install
 Download and extract `transactions.csv file from https://s3-ap-southeast-1.amazonaws.com/static.propine.com/transactions.csv.zip
 
 Copy the file to the root of the project.
-
-Sync the db with contents from `transactions.csv` file.
-
-```shell
-sqlite3 transactions.db ".read syncDB.sql"
-```
 
 Run the project.
 
@@ -58,20 +50,14 @@ Filter the portfolio by token, date or both.
 
 ## Project Structure
 
-`/config` directory has all the files related to core features of the project. Eg: connecting to database
-
 `/src` directory lists all the commands available and related functionalities.
 
 `/utils` directory holds all the repeated logics supporting the commands.
 
 `index.js` handles the app startup.
 
-`syncDB.sql` contains SQL script to sync transactions.csv file to sqlite DB.
-
 ## Resources used
 
 https://codeburst.io/build-a-command-line-interface-cli-application-with-node-js-59becec90e28 for building command line tools with nodejs.
-
-https://www.digitalocean.com/community/tutorials/how-to-read-and-write-csv-files-in-node-js-using-node-csv for handling sqlite database with nodejs.
 
 Stackoverflow and other resources found on Google.
