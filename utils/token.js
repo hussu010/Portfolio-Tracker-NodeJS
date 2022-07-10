@@ -14,23 +14,17 @@ const fetchTokenCurrentValue = async (token) => {
   }
 };
 
-const calculateTokenAmountFromTransactions = (transactionData) => {
-  var totalTokenNameAmount = {};
+const calculateTokenAmountFromTransactions = (tokenNameAmount, transaction) => {
+  const [timestamp, transaction_type, token, amount] = transaction;
 
-  transactionData.forEach((transaction) => {
-    const { timestamp, transaction_type, token, amount } = transaction;
-    const floatAmount = parseFloat(amount);
-
-    if (transaction_type == "DEPOSIT") {
-      totalTokenNameAmount[token] =
-        (totalTokenNameAmount[token] || floatAmount) + floatAmount;
-    } else {
-      totalTokenNameAmount[token] =
-        (totalTokenNameAmount[token] || floatAmount) - floatAmount;
-    }
-  });
-
-  return totalTokenNameAmount;
+  if (transaction_type == "DEPOSIT") {
+    tokenNameAmount[token] =
+      (tokenNameAmount[token] || parseFloat(amount)) + parseFloat(amount);
+  } else {
+    tokenNameAmount[token] =
+      (tokenNameAmount[token] || parseFloat(amount)) - parseFloat(amount);
+  }
+  return tokenNameAmount;
 };
 
 const calculatePortfolioValueFromTokenDict = async (
