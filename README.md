@@ -26,7 +26,9 @@ Install the required packages.
 npm install
 ```
 
-Copy `transactions.csv` file to the root of the project.
+Download and extract `transactions.csv file from https://s3-ap-southeast-1.amazonaws.com/static.propine.com/transactions.csv.zip
+
+Copy the file to the root of the project.
 
 Sync the db with contents from `transactions.csv` file.
 
