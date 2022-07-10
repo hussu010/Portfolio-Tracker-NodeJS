@@ -5,7 +5,7 @@ const { calculateTokenAmountFromTransactions } = require("./token");
 
 const getAllTransactions = () => {
   const readTransactionsStream = fs.createReadStream(
-    path.resolve(__dirname, "../transactions_copy.csv")
+    path.resolve(__dirname, "../transactions.csv")
   );
 
   var tokenNameAmount = {};
@@ -31,7 +31,7 @@ const getAllTransactions = () => {
 
 const getTransactionsByToken = (token) => {
   const readTransactionsStream = fs.createReadStream(
-    path.resolve(__dirname, "../transactions_copy.csv")
+    path.resolve(__dirname, "../transactions.csv")
   );
 
   var tokenNameAmount = {};
@@ -59,7 +59,7 @@ const getTransactionsByToken = (token) => {
 
 const getTransactionsBetweenTimestamp = (date) => {
   const readTransactionsStream = fs.createReadStream(
-    path.resolve(__dirname, "../transactions_copy.csv")
+    path.resolve(__dirname, "../transactions.csv")
   );
 
   const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
@@ -95,7 +95,7 @@ const getTransactionsBetweenTimestamp = (date) => {
 
 const getTransactionsByTokenAndDate = (token, date) => {
   const readTransactionsStream = fs.createReadStream(
-    path.resolve(__dirname, "../transactions_copy.csv")
+    path.resolve(__dirname, "../transactions.csv")
   );
 
   const startOfTheDayInEpoch = new Date(date).getTime() / 1000;
