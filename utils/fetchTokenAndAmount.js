@@ -29,6 +29,34 @@ const getAllTransactions = () => {
   });
 };
 
+const getTransactionsByToken = (token) => {
+  const readTransactionsStream = fs.createReadStream(
+    path.resolve(__dirname, "../transactions_copy.csv")
+  );
+
+  var tokenNameAmount = {};
+  var allTokenNameAmount = {};
+
+  return new Promise((resolve, reject) => {
+    readTransactionsStream
+      .pipe(parse({ delimiter: ",", from_line: 2 }))
+      .on("data", (data) => {
+        const symbol = data[2];
+        if (symbol == token)
+          allTokenNameAmount = calculateTokenAmountFromTransactions(
+            tokenNameAmount,
+            data
+          );
+      })
+      .on("end", () => {
+        resolve(allTokenNameAmount);
+      })
+      .on("error", (error) => {
+        reject(error);
+      });
+  });
+};
+
 module.exports = {
   getAllTransactions,
   getTransactionsByToken,
